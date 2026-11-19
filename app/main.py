@@ -48,5 +48,9 @@ def review(run_id:str,payload:dict=Body(...)):
 def export(run_id:str):
     result=store.get(DB_PATH,run_id)
     return Response(serialize(result),media_type='application/zip',headers={'Content-Disposition':f'attachment; filename="{run_id}.zip"'})
+@app.get('/api/runs/{run_id}/booking')
+def booking_versions(run_id:str):
+    store.get(DB_PATH,run_id)
+    return {'current':store.latest_booking(DB_PATH,run_id),'versions':store.booking_versions(DB_PATH,run_id)}
 for key in MODULES:
     app.include_router(import_module(f'app.modules.{key}.handler').router)

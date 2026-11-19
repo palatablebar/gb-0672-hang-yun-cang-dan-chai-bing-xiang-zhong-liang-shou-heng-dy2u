@@ -6,7 +6,8 @@
     "hazard",
     "weight",
     "reconcile",
-    "archive"
+    "archive",
+    "booking"
   ],
   "packages": {
     "carton": "1",

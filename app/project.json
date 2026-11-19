@@ -10,7 +10,8 @@
     "危险品检查",
     "净毛重核验",
     "报关对账",
-    "版本封存"
+    "版本封存",
+    "订舱确认"
   ],
   "rule": "主提单与分提单拆并形成有向无环关系，件数和净毛重逐层守恒",
   "lane": "L3",
@@ -29,7 +30,8 @@
     "hazard",
     "weight",
     "reconcile",
-    "archive"
+    "archive",
+    "booking"
   ],
   "labels": {
     "id": "提单编号",
@@ -63,6 +65,18 @@
     "graph_errors": "关系错误",
     "weight_errors": "重量差异",
     "child": "子单号",
-    "classes": "危险类组合"
+    "classes": "危险类组合",
+    "status": "箱状态",
+    "codes": "原因码",
+    "detail": "原因",
+    "manifest_pieces": "舱单件数",
+    "manifest_gross_kg": "舱单毛重 kg",
+    "receipt_pieces": "回执件数",
+    "receipt_gross_kg": "回执毛重 kg",
+    "master_bills": "箱内主单",
+    "master_bill": "主单号",
+    "box_status": "箱状态",
+    "counted_in_confirmation": "计入确认单",
+    "release_mode": "放行方式"
   }
 }

@@ -13,6 +13,7 @@
 | M5 净毛重核验 | 执行并复核净毛重核验 | `POST /api/weight` | `app/modules/weight/rules.py` | `tests/test_weight.py` |
 | M6 报关对账 | 执行并复核报关对账 | `POST /api/reconcile` | `app/modules/reconcile/rules.py` | `tests/test_reconcile.py` |
 | M7 版本封存 | 执行并复核版本封存 | `POST /api/archive` | `app/modules/archive/rules.py` | `tests/test_archive.py` |
+| M8 订舱确认 | 回执逐箱裁决并生成确认单 | `POST /api/booking`、`POST /api/runs/{id}/booking/confirm` | `app/modules/booking/rules.py` | `tests/test_booking.py`、`tests/test_booking_api.py` |
 
 ## 陷阱登记
 
@@ -29,6 +30,10 @@
 | TRAP-06 | 全角千分位 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/packaging/rules.py` | `tests/test_packaging.py::test_fullwidth_decimal` |
 | TRAP-20 | 拆并依赖环 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/grouping/rules.py` | `tests/test_grouping.py::test_cycle_real` |
 | TRAP-21 | 缺失父级 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/grouping/rules.py` | `tests/test_grouping.py::test_missing_parent_real` |
+| TRAP-31 | 回执只报整箱件重 | 按整箱值直接覆盖各主单，明细丢失 | 主单根汇总逐箱对平，明细原样回写不重复计量 | `app/modules/booking/rules.py` | `tests/test_booking.py::test_allocations_back_to_master_bills_no_double_count` |
+| TRAP-32 | 同箱多主单归属不清 | 重量对平即接受并覆盖原明细 | 标 MULTI_SOURCE 待补证，原明细全部保留 | `app/modules/booking/rules.py` | `tests/test_booking.py::test_multi_master_shared_container_flagged` |
+| TRAP-33 | 回执同箱重复 | 取其中一条直接入账 | 件重不一致判 RECEIPT_DUPLICATE 退回，不采信任一条 | `app/modules/booking/rules.py` | `tests/test_booking.py::test_receipt_duplicate_is_returned_and_not_trusted` |
+| TRAP-34 | 重跑生成第二套确认单 | 每次确认新增版本 | 按回执+裁决印章幂等，失败保留旧版 | `app/store.py` | `tests/test_booking_api.py::test_rerun_same_receipt_no_second_set` |
 
 ## 对账规则
 

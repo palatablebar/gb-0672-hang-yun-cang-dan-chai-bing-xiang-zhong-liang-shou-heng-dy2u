@@ -17,3 +17,12 @@ def test_weight_seal_changes(clean):
     state=deepcopy(clean);state['weight_checks'][0]['difference']='9';assert decide(state)['seal']!=clean['archive']['seal']
 def test_bundle_manifest(clean):
     z=zipfile.ZipFile(io.BytesIO(serialize(clean)));assert json.loads(z.read('manifest.json'))['sha256']==clean['manifest']['sha256']
+def test_bundle_includes_booking(clean):
+    from app.modules.booking.rules import build_booking
+    from app.config import ROOT
+    state=deepcopy(clean)
+    state['booking']=build_booking(state,(ROOT/'sample_data/receipt_clean.csv').read_text())
+    z=zipfile.ZipFile(io.BytesIO(serialize(state)))
+    evidence=json.loads(z.read('evidence.json'))
+    assert evidence['booking']['summary']['accepted']==6
+    assert evidence['booking']['seal']==state['booking']['seal']
